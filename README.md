@@ -1,2 +1,1 @@
 # Gymsense - SaaS Fitness Tracker
-
