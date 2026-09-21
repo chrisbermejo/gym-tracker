@@ -1,13 +1,9 @@
-import os
-
 from fastapi import FastAPI
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
+
+from app.database import engine
 
 app = FastAPI()
-
-database_url = os.environ["DATABASE_URL"].replace("postgresql://", "postgresql+psycopg://", 1)
-engine = create_engine(database_url)
-
 
 @app.get("/test")
 def health():
