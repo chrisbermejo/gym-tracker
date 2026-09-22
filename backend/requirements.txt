@@ -3,3 +3,6 @@ uvicorn[standard]
 sqlalchemy
 psycopg[binary]
 alembic
+authlib
+itsdangerous
+httpx
