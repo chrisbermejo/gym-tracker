@@ -5,7 +5,7 @@ from fastapi import APIRouter, Request, Depends
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
-from backend.app.api.deps import get_current_user, get_db
+from app.api.deps import get_current_user, get_db
 from app.models import User
 
 

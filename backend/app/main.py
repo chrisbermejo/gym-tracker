@@ -4,9 +4,9 @@ from fastapi import FastAPI
 from sqlalchemy import text
 from starlette.middleware.sessions import SessionMiddleware
 
-from backend.app.core.database import engine
-from backend.app.api.auth import router as auth_router
-from backend.app.api.users import router as users_router
+from app.core.database import engine
+from app.api.auth import router as auth_router
+from app.api.users import router as users_router
 
 app = FastAPI()
 

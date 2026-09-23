@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
-from backend.app.core.database import SessionLocal
+from app.core.database import SessionLocal
 from app.models import User
 
 
