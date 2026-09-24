@@ -7,7 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from app.core.database import engine
 from app.api.auth import router as auth_router
 from app.api.users import router as users_router
-from app.api.splits import router as splits_router
+from app.api.workout_types import router as splits_router
 
 app = FastAPI()
 
