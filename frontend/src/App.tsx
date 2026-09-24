@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import Onboarding from './Onboarding'
 import { kgToLbs, cmToFeetInches } from './units'
+import Onboarding from './Onboarding'
+import WorkoutTypes from './WorkoutTypes'
 
 interface User {
     id: number
@@ -75,6 +76,8 @@ function App() {
                     </button>
                 </p>
             </div>
+
+            <WorkoutTypes />
 
             <button onClick={logout}>Log out</button>
         </div>
