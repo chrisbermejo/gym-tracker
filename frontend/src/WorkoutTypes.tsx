@@ -29,9 +29,30 @@ function WorkoutTypes() {
             body: JSON.stringify({ name: newName.trim() }),
         })
         const created = await res.json()
+        setTypes((prev) => [...prev, created])
         setNewName('')
-        loadTypes()
         setSelected(created)
+    }
+
+    const deleteType = async (id: number) => {
+        await fetch(`/api/workout-types/${id}`, { method: 'DELETE' })
+        setTypes((prev) => prev.filter((type) => type.id !== id))
+        if (selected?.id === id) {
+            setSelected(null)
+        }
+    }
+
+    const editType = async (id: number, name: string) => {
+        if (!name.trim()) return
+        const res = await fetch(`/api/workout-types/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: name.trim() }),
+        })
+        const updated = await res.json()
+        setTypes((prev) => prev.map((type) => (type.id === id ? updated : type)))
+        setSelected(updated)
+        setNewName('')
     }
 
     return (
@@ -40,27 +61,43 @@ function WorkoutTypes() {
 
             <div className="flex flex-wrap gap-2">
                 {types.map((t) => (
-                    <button
-                        key={t.id}
-                        type="button"
-                        onClick={() => setSelected(t)}
-                        className={`border rounded px-3 py-1 ${selected?.id === t.id ? 'bg-blue-600 text-white' : ''}`}
-                    >
-                        {t.name}
-                    </button>
+                    <div key={t.id} className="flex items-center gap-1">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setSelected(t)
+                                setNewName(t.name)
+                            }}
+                            className={`border rounded px-3 py-1 ${selected?.id === t.id ? 'bg-blue-600 text-white' : ''}`}
+                        >
+                            {t.name}
+                        </button>
+
+                    </div>
                 ))}
             </div>
 
             <div className="flex gap-2">
                 <input
                     className="border rounded px-2 py-1"
-                    placeholder="New workout name..."
+                    placeholder="Enter workout name..."
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                 />
                 <button type="button" onClick={createType} className="border rounded px-3 py-1">
                     Add
                 </button>
+                {selected && (
+                    <div className="flex gap-2">
+                        <button type="button" onClick={() => deleteType(selected.id)} className="border rounded px-3 py-1">
+                            Delete
+                        </button>
+                        <button type="button" onClick={() => editType(selected.id, newName)} className="border rounded px-3 py-1">
+                            Edit
+                        </button>
+                    </div>
+
+                )}
             </div>
 
             {selected && (
