@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { kgToLbs, cmToFeetInches } from './units'
-import Onboarding from './Onboarding'
-import WorkoutTypes from './WorkoutTypes'
+import { kgToLbs, cmToFeetInches } from './utils/units'
+import Onboarding from './components/Onboarding'
+import WorkoutTypes from './components/WorkoutTypes'
 
 interface User {
     id: number

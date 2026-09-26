@@ -1,5 +1,5 @@
 import { useState, type SyntheticEvent } from 'react'
-import { kgToLbs, lbsToKg, cmToFeetInches, feetInchesToCm } from './units'
+import { kgToLbs, lbsToKg, cmToFeetInches, feetInchesToCm } from '../utils/units'
 
 type WeightUnit = 'kg' | 'lbs'
 type HeightUnit = 'cm' | 'ft'
