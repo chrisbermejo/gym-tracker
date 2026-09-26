@@ -8,6 +8,7 @@ from app.core.database import engine
 from app.api.auth import router as auth_router
 from app.api.users import router as users_router
 from app.api.workout_types import router as splits_router
+from app.api.exercises import router as exercises_router
 
 app = FastAPI()
 
@@ -16,6 +17,7 @@ app.add_middleware(SessionMiddleware, secret_key=os.environ["SESSION_SECRET"])
 app.include_router(auth_router)
 app.include_router(users_router)
 app.include_router(splits_router)
+app.include_router(exercises_router)
 
 @app.get("/test")
 def health():

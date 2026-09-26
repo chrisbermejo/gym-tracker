@@ -26,3 +26,21 @@ class WorkoutType(Base):
     user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)
     name: Mapped[str] = mapped_column(String)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+class Exercise(Base):
+    __tablename__ = "exercises"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)
+    name: Mapped[str] = mapped_column(String)
+    muscle_group: Mapped[str | None] = mapped_column(String, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+
+class WorkoutTypeExercise(Base):
+    __tablename__ = "workout_type_exercises"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    workout_type_id: Mapped[int] = mapped_column(ForeignKey("workout_types.id", ondelete="CASCADE"))
+    exercise_id: Mapped[int] = mapped_column(ForeignKey("exercises.id"))
+    order_index: Mapped[int]
