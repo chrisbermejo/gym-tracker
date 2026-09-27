@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import ExerciseList from './ExerciseList'
 
 interface WorkoutType {
     id: number
@@ -101,9 +102,10 @@ function WorkoutTypes() {
             </div>
 
             {selected && (
-                <p>
-                    You picked <strong>{selected.name}</strong>. (WIP adding exercises)
-                </p>
+                <div className='flex flex-col w-full max-w-sm'>
+                    <p>You picked <strong>{selected.name}</strong>.</p>
+                    <ExerciseList workoutTypeId={selected.id} canEdit={!selected.is_predefined} />
+                </div>
             )}
         </div>
     )
