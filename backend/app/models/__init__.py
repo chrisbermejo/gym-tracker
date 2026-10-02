@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import datetime, date
 
-from sqlalchemy import DateTime, ForeignKey, Numeric, String
+from sqlalchemy import DateTime, ForeignKey, Numeric, String, Date
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
@@ -44,3 +44,31 @@ class WorkoutTypeExercise(Base):
     workout_type_id: Mapped[int] = mapped_column(ForeignKey("workout_types.id", ondelete="CASCADE"))
     exercise_id: Mapped[int] = mapped_column(ForeignKey("exercises.id"))
     order_index: Mapped[int]
+
+class Workout(Base):
+    __tablename__ = "workouts"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    workout_date: Mapped[date] = mapped_column(Date)
+    label: Mapped[str] = mapped_column(String)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class WorkoutExercise(Base):
+    __tablename__ = "workout_exercises"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    workout_id: Mapped[int] = mapped_column(ForeignKey("workouts.id", ondelete="CASCADE"))
+    exercise_id: Mapped[int] = mapped_column(ForeignKey("exercises.id"))
+    order_index: Mapped[int]
+
+
+class Set(Base):
+    __tablename__ = "sets"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    workout_exercise_id: Mapped[int] = mapped_column(ForeignKey("workout_exercises.id", ondelete="CASCADE"))
+    set_number: Mapped[int]
+    weight: Mapped[float] = mapped_column(Numeric)
+    reps: Mapped[int]   
