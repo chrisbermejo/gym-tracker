@@ -9,6 +9,7 @@ from app.api.auth import router as auth_router
 from app.api.users import router as users_router
 from app.api.workout_types import router as splits_router
 from app.api.exercises import router as exercises_router
+from app.api.workouts import router as workouts_router
 
 app = FastAPI()
 
@@ -18,6 +19,7 @@ app.include_router(auth_router)
 app.include_router(users_router)
 app.include_router(splits_router)
 app.include_router(exercises_router)
+app.include_router(workouts_router)
 
 @app.get("/test")
 def health():
