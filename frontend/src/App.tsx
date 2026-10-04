@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { kgToLbs, cmToFeetInches } from './utils/units'
 import Onboarding from './components/Onboarding'
 import WorkoutTypes from './components/WorkoutTypes'
+import TodaysWorkout from './components/TodaysWorkout'
 
 interface User {
     id: number
@@ -17,6 +18,7 @@ function App() {
     const [loading, setLoading] = useState(true)
     const [weightUnit, setWeightUnit] = useState<'kg' | 'lbs'>('kg')
     const [heightUnit, setHeightUnit] = useState<'cm' | 'ft'>('cm')
+    const [showManageTypes, setShowManageTypes] = useState(false)
 
     const loadCurrentUser = () => {
         fetch('/api/auth/me')
@@ -59,7 +61,7 @@ function App() {
         })()
 
     return (
-        <div>
+        <div className='flex flex-col items-center'>
             <h1 className="text-4xl font-bold text-blue-600">GymSense</h1>
             <p>Signed in as {currentUser.name} ({currentUser.email})</p>
             <div className="flex flex-col items-center">
@@ -77,9 +79,16 @@ function App() {
                 </p>
             </div>
 
-            <WorkoutTypes />
+            <button
+                type="button"
+                onClick={() => setShowManageTypes((prev) => !prev)}
+                className="text-sm underline"
+            >
+                {showManageTypes ? 'Back to today' : 'Manage workout types'}
+            </button>
+            {showManageTypes ? <WorkoutTypes /> : <TodaysWorkout />}
 
-            <button onClick={logout}>Log out</button>
+            <button className="mt-4" onClick={logout}>Log out</button>
         </div>
     )
 }
