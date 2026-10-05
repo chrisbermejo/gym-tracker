@@ -62,30 +62,33 @@ function App() {
 
     return (
         <div className='flex flex-col items-center'>
-            <h1 className="text-4xl font-bold text-blue-600">GymSense</h1>
-            <p>Signed in as {currentUser.name} ({currentUser.email})</p>
-            <div className="flex flex-col items-center">
-                <p className="flex gap-2">
-                    Weight: {weightDisplay}
-                    <button type="button" onClick={() => setWeightUnit(weightUnit === 'kg' ? 'lbs' : 'kg')} className="text-sm underline">
-                        switch to {weightUnit === 'kg' ? 'lbs' : 'kg'}
-                    </button>
-                </p>
-                <p className="flex gap-2">
-                    Height: {heightDisplay}
-                    <button type="button" onClick={() => setHeightUnit(heightUnit === 'cm' ? 'ft' : 'cm')} className="text-sm underline">
-                        switch to {heightUnit === 'cm' ? 'ft/in' : 'cm'}
-                    </button>
-                </p>
+            <div className='mb-5'>
+                <h1 className="text-4xl font-bold text-blue-600">GymSense</h1>
+                <p>Signed in as {currentUser.name} ({currentUser.email})</p>
+                <div className="flex flex-col items-center">
+                    <p className="flex gap-2">
+                        Weight: {weightDisplay}
+                        <button type="button" onClick={() => setWeightUnit(weightUnit === 'kg' ? 'lbs' : 'kg')} className="text-sm underline">
+                            switch to {weightUnit === 'kg' ? 'lbs' : 'kg'}
+                        </button>
+                    </p>
+                    <p className="flex gap-2">
+                        Height: {heightDisplay}
+                        <button type="button" onClick={() => setHeightUnit(heightUnit === 'cm' ? 'ft' : 'cm')} className="text-sm underline">
+                            switch to {heightUnit === 'cm' ? 'ft/in' : 'cm'}
+                        </button>
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    onClick={() => setShowManageTypes((prev) => !prev)}
+                    className="text-sm underline"
+                >
+                    {showManageTypes ? 'Back to today' : 'Manage workout types'}
+                </button>
             </div>
 
-            <button
-                type="button"
-                onClick={() => setShowManageTypes((prev) => !prev)}
-                className="text-sm underline"
-            >
-                {showManageTypes ? 'Back to today' : 'Manage workout types'}
-            </button>
             {showManageTypes ? <WorkoutTypes /> : <TodaysWorkout />}
 
             <button className="mt-4" onClick={logout}>Log out</button>

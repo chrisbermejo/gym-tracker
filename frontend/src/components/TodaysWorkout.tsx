@@ -59,6 +59,12 @@ function TodaysWorkout() {
         setWorkout(await res.json())
     }
 
+    const deleteWorkout = async () => {
+        if (!workout) return
+        await fetch(`/api/workouts/${workout.id}`, { method: 'DELETE' })
+        setWorkout(null)
+    }
+
     const addExercise = async () => {
         if (!workout || !selectedExerciseId) return
         const res = await fetch(`/api/workouts/${workout.id}/exercises`, {
@@ -73,6 +79,12 @@ function TodaysWorkout() {
     const finishWorkout = async () => {
         if (!workout) return
         const res = await fetch(`/api/workouts/${workout.id}/complete`, { method: 'PATCH' })
+        setWorkout(await res.json())
+    }
+
+    const undoComplete = async () => {
+        if (!workout) return
+        const res = await fetch(`/api/workouts/${workout.id}/uncomplete`, { method: 'PATCH' })
         setWorkout(await res.json())
     }
 
@@ -91,7 +103,7 @@ function TodaysWorkout() {
                 </div>
                 <div className="flex gap-2">
                     <input
-                        className="border rounded px-2 py-1"
+                        className="border rounded px-2 py-1 w-full"
                         placeholder="Or type something else..."
                         value={customLabel}
                         onChange={(e) => setCustomLabel(e.target.value)}
@@ -108,15 +120,27 @@ function TodaysWorkout() {
 
     return (
         <div className="flex flex-col gap-4 items-center max-w-md w-full">
-            <div className="flex items-center gap-4 mt-4">
+            <div className="flex items-center gap-4">
                 <h2 className="text-2xl font-bold">{workout.label}</h2>
-                {workout.completed_at ? (
-                    <span className="text-green-600 text-sm">Completed</span>
-                ) : (
-                    <button type="button" onClick={finishWorkout} className="border rounded px-3 py-1">
-                        Finish workout
-                    </button>
-                )}
+                <div className='flex gap-2'>
+                    {!workout.completed_at && (
+                        <button type="button" onClick={deleteWorkout} className="border rounded px-3 py-1">
+                            Undo
+                        </button>
+                    )}
+                    {workout.completed_at ? (
+                        <div className="flex items-center gap-2">
+                            <span className="text-green-600 text-sm">Completed</span>
+                            <button type="button" onClick={undoComplete} className="text-sm underline">
+                                Undo
+                            </button>
+                        </div>
+                    ) : (
+                        <button type="button" onClick={finishWorkout} className="border rounded px-3 py-1">
+                            Finish workout
+                        </button>
+                    )}
+                </div>
             </div>
 
             {workout.exercises.map((we) => (

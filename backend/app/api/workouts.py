@@ -79,6 +79,12 @@ def get_today_workout(user: User = Depends(get_current_user), db: Session = Depe
 def get_workout(workout_id: int, user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     return _serialize(db, _get_owned_workout(db, workout_id, user))
 
+@router.delete("/{workout_id}")
+def delete_workout(workout_id: int, user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    workout = _get_owned_workout(db, workout_id, user)
+    db.delete(workout)
+    db.commit()
+    return {"status": "ok"}
 
 @router.post("/{workout_id}/exercises")
 def add_exercise(
@@ -113,5 +119,12 @@ def add_set(
 def complete_workout(workout_id: int, user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     workout = _get_owned_workout(db, workout_id, user)
     workout.completed_at = datetime.now(timezone.utc)
+    db.commit()
+    return _serialize(db, workout)
+
+@router.patch("/{workout_id}/uncomplete")
+def uncomplete_workout(workout_id: int, user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    workout = _get_owned_workout(db, workout_id, user)
+    workout.completed_at = None
     db.commit()
     return _serialize(db, workout)
