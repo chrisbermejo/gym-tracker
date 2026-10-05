@@ -25,3 +25,7 @@ class AddWorkoutExerciseIn(BaseModel):
 class AddSetIn(BaseModel):
     weight: float = Field(gt=0)
     reps: int = Field(gt=0)
+
+class CreateWorkoutIn(BaseModel):
+    label: str = Field(min_length=1, max_length=50)
+    workout_type_id: int | None = None

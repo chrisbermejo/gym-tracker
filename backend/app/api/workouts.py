@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db
-from app.models import Exercise, Set, User, Workout, WorkoutExercise
+from app.models import Exercise, Set, User, Workout, WorkoutExercise, WorkoutTypeExercise
 from app.schemas import AddSetIn, AddWorkoutExerciseIn, CreateWorkoutIn
 
 router = APIRouter(prefix="/workouts")
@@ -57,8 +57,19 @@ def _serialize(db: Session, workout: Workout) -> dict:
 def create_workout(payload: CreateWorkoutIn, user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     workout = Workout(user_id=user.id, workout_date=date.today(), label=payload.label)
     db.add(workout)
+    db.flush()
+
+    if payload.workout_type_id is not None:
+        links = (
+            db.query(WorkoutTypeExercise)
+            .filter(WorkoutTypeExercise.workout_type_id == payload.workout_type_id)
+            .order_by(WorkoutTypeExercise.order_index)
+            .all()
+        )
+        for link in links:
+            db.add(WorkoutExercise(workout_id=workout.id, exercise_id=link.exercise_id, order_index=link.order_index))
+
     db.commit()
-    db.refresh(workout)
     return _serialize(db, workout)
 
 

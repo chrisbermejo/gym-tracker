@@ -49,12 +49,12 @@ function TodaysWorkout() {
         fetch('/api/exercises').then((res) => res.json()).then(setExercises)
     }, [])
 
-    const startWorkout = async (label: string) => {
+    const startWorkout = async (label: string, workoutTypeId?: number) => {
         if (!label.trim()) return
         const res = await fetch('/api/workouts', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ label: label.trim() }),
+            body: JSON.stringify({ label: label.trim(), workout_type_id: workoutTypeId ?? null }),
         })
         setWorkout(await res.json())
     }
@@ -96,7 +96,7 @@ function TodaysWorkout() {
                 <h2 className="text-2xl font-bold">What are we doing today?</h2>
                 <div className="flex flex-wrap gap-2">
                     {types.map((t) => (
-                        <button key={t.id} type="button" onClick={() => startWorkout(t.name)} className="border rounded px-3 py-1">
+                        <button key={t.id} type="button" onClick={() => startWorkout(t.name, t.id)} className="border rounded px-3 py-1">
                             {t.name}
                         </button>
                     ))}
@@ -130,8 +130,8 @@ function TodaysWorkout() {
                     )}
                     {workout.completed_at ? (
                         <div className="flex items-center gap-2">
-                            <span className="text-green-600 text-sm">Completed</span>
-                            <button type="button" onClick={undoComplete} className="text-sm underline">
+                            <span className="text-green-600 border rounded px-3 py-1">Completed</span>
+                            <button type="button" onClick={undoComplete} className="border rounded px-3 py-1">
                                 Undo
                             </button>
                         </div>
