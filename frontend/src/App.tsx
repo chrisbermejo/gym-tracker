@@ -3,6 +3,7 @@ import { kgToLbs, cmToFeetInches } from './utils/units'
 import Onboarding from './components/Onboarding'
 import WorkoutTypes from './components/WorkoutTypes'
 import TodaysWorkout from './components/TodaysWorkout'
+import WorkoutHistory from './components/WorkoutHistory'
 
 interface User {
     id: number
@@ -18,7 +19,7 @@ function App() {
     const [loading, setLoading] = useState(true)
     const [weightUnit, setWeightUnit] = useState<'kg' | 'lbs'>('kg')
     const [heightUnit, setHeightUnit] = useState<'cm' | 'ft'>('cm')
-    const [showManageTypes, setShowManageTypes] = useState(false)
+    const [view, setView] = useState<'today' | 'types' | 'history'>('today')
 
     const loadCurrentUser = () => {
         fetch('/api/auth/me')
@@ -80,16 +81,22 @@ function App() {
                     </p>
                 </div>
 
-                <button
-                    type="button"
-                    onClick={() => setShowManageTypes((prev) => !prev)}
-                    className="text-sm underline"
-                >
-                    {showManageTypes ? 'Back to today' : 'Manage workout types'}
-                </button>
+                <div className="flex gap-3 text-sm justify-center mt-2">
+                    <button type="button" onClick={() => setView('today')} className={view === 'today' ? 'font-bold underline' : 'underline'}>
+                        Today
+                    </button>
+                    <button type="button" onClick={() => setView('types')} className={view === 'types' ? 'font-bold underline' : 'underline'}>
+                        Manage Types
+                    </button>
+                    <button type="button" onClick={() => setView('history')} className={view === 'history' ? 'font-bold underline' : 'underline'}>
+                        History
+                    </button>
+                </div>
             </div>
 
-            {showManageTypes ? <WorkoutTypes /> : <TodaysWorkout />}
+            {view === 'today' && <TodaysWorkout />}
+            {view === 'types' && <WorkoutTypes />}
+            {view === 'history' && <WorkoutHistory />}
 
             <button className="mt-4" onClick={logout}>Log out</button>
         </div>

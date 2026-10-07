@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface SetEntry {
     id: number
@@ -22,6 +22,17 @@ interface WorkoutDetail {
     exercises: WorkoutExerciseEntry[]
 }
 
+interface HistorySet {
+    set_number: number
+    weight: number
+    reps: number
+}
+
+interface ExerciseHistory {
+    workout_date: string
+    sets: HistorySet[]
+}
+
 function WorkoutExerciseCard({
     workoutId,
     entry,
@@ -35,6 +46,7 @@ function WorkoutExerciseCard({
 }) {
     const [weight, setWeight] = useState('')
     const [reps, setReps] = useState('')
+    const [history, setHistory] = useState<ExerciseHistory | null>(null)
 
     const addSet = async () => {
         if (!weight || !reps) return
@@ -48,9 +60,20 @@ function WorkoutExerciseCard({
         setReps('')
     }
 
+    useEffect(() => {
+        fetch(`/api/exercises/${entry.exercise_id}/history`)
+            .then((res) => res.json())
+            .then(setHistory)
+    }, [entry.exercise_id])
+
     return (
         <div className="border rounded p-3 flex flex-col gap-2 w-full">
             <h3 className="font-bold">{entry.name}</h3>
+            {history && (
+                <p className="text-xs text-gray-500">
+                    Last time ({history.workout_date}): {history.sets.map((s) => `${s.weight}x${s.reps}`).join(', ')}
+                </p>
+            )}
             <div className="flex flex-col gap-1">
                 {entry.sets.map((s) => (
                     <div key={s.id} className="text-sm">

@@ -139,3 +139,21 @@ def uncomplete_workout(workout_id: int, user: User = Depends(get_current_user), 
     workout.completed_at = None
     db.commit()
     return _serialize(db, workout)
+
+@router.get("")
+def list_workouts(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    workouts = (
+        db.query(Workout)
+        .filter(Workout.user_id == user.id)
+        .order_by(Workout.workout_date.desc(), Workout.id.desc())
+        .all()
+    )
+    return [
+        {
+            "id": w.id,
+            "workout_date": w.workout_date.isoformat(),
+            "label": w.label,
+            "completed_at": w.completed_at.isoformat() if w.completed_at else None,
+        }
+        for w in workouts
+    ]
