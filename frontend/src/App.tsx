@@ -5,6 +5,8 @@ import WorkoutTypes from './components/WorkoutTypes'
 import TodaysWorkout from './components/TodaysWorkout'
 import WorkoutHistory from './components/WorkoutHistory'
 
+import Button from './components/ui/Button'
+
 interface User {
     id: number
     email: string
@@ -63,8 +65,8 @@ function App() {
 
     return (
         <div className='flex flex-col items-center'>
-            <div className='mb-5'>
-                <h1 className="text-4xl font-bold text-blue-600">GymSense</h1>
+            <div className='mb-5 text-center'>
+                <h1 className="text-4xl font-bold text-primary ">GymSense</h1>
                 <p>Signed in as {currentUser.name} ({currentUser.email})</p>
                 <div className="flex flex-col items-center">
                     <p className="flex gap-2">
@@ -82,15 +84,15 @@ function App() {
                 </div>
 
                 <div className="flex gap-3 text-sm justify-center mt-2">
-                    <button type="button" onClick={() => setView('today')} className={view === 'today' ? 'font-bold underline' : 'underline'}>
+                    <Button variant={view === 'today' ? 'primary' : 'secondary'} onClick={() => setView('today')}>
                         Today
-                    </button>
-                    <button type="button" onClick={() => setView('types')} className={view === 'types' ? 'font-bold underline' : 'underline'}>
+                    </Button>
+                    <Button variant={view === 'types' ? 'primary' : 'secondary'} onClick={() => setView('types')}>
                         Manage Types
-                    </button>
-                    <button type="button" onClick={() => setView('history')} className={view === 'history' ? 'font-bold underline' : 'underline'}>
+                    </Button>
+                    <Button variant={view === 'history' ? 'primary' : 'secondary'} onClick={() => setView('history')}>
                         History
-                    </button>
+                    </Button>
                 </div>
             </div>
 
@@ -98,7 +100,9 @@ function App() {
             {view === 'types' && <WorkoutTypes />}
             {view === 'history' && <WorkoutHistory />}
 
-            <button className="mt-4" onClick={logout}>Log out</button>
+            <Button variant="danger" className="mt-4" onClick={logout}>
+                Log out
+            </Button>
         </div>
     )
 }

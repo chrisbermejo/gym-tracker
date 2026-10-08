@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import WorkoutExerciseCard from './WorkoutExerciseCard'
 
+import Button from './ui/Button'
+import Input from './ui/Input'
+
 interface SetEntry {
     id: number
     set_number: number
@@ -93,24 +96,24 @@ function TodaysWorkout() {
     if (!workout) {
         return (
             <div className="flex flex-col gap-4">
-                <h2 className="text-2xl font-bold">What are we doing today?</h2>
+                <h2 className="text-2xl font-bold text-center">What are we doing today?</h2>
                 <div className="flex flex-wrap gap-2">
                     {types.map((t) => (
-                        <button key={t.id} type="button" onClick={() => startWorkout(t.name, t.id)} className="border rounded px-3 py-1">
+                        <Button key={t.id} onClick={() => startWorkout(t.name, t.id)}>
                             {t.name}
-                        </button>
+                        </Button>
                     ))}
                 </div>
-                <div className="flex gap-2">
-                    <input
-                        className="border rounded px-2 py-1 w-full"
+                <div className="flex gap-2 w-full">
+                    <Input
+                        className="flex-1"
                         placeholder="Or type something else..."
                         value={customLabel}
                         onChange={(e) => setCustomLabel(e.target.value)}
                     />
-                    <button type="button" onClick={() => startWorkout(customLabel)} className="border rounded px-3 py-1">
+                    <Button onClick={() => startWorkout(customLabel)}>
                         Start
-                    </button>
+                    </Button>
                 </div>
             </div>
         )
@@ -124,21 +127,21 @@ function TodaysWorkout() {
                 <h2 className="text-2xl font-bold">{workout.label}</h2>
                 <div className='flex gap-2'>
                     {!workout.completed_at && (
-                        <button type="button" onClick={deleteWorkout} className="border rounded px-3 py-1">
-                            Undo
-                        </button>
+                        <Button variant="danger" onClick={deleteWorkout}>
+                            Start over
+                        </Button>
                     )}
                     {workout.completed_at ? (
                         <div className="flex items-center gap-2">
-                            <span className="text-green-600 border rounded px-3 py-1">Completed</span>
-                            <button type="button" onClick={undoComplete} className="border rounded px-3 py-1">
+                            <span className="text-green-600 text-sm">Completed</span>
+                            <Button variant="ghost" onClick={undoComplete}>
                                 Undo
-                            </button>
+                            </Button>
                         </div>
                     ) : (
-                        <button type="button" onClick={finishWorkout} className="border rounded px-3 py-1">
+                        <Button variant="primary" onClick={finishWorkout}>
                             Finish workout
-                        </button>
+                        </Button>
                     )}
                 </div>
             </div>
@@ -167,9 +170,7 @@ function TodaysWorkout() {
                             </option>
                         ))}
                     </select>
-                    <button type="button" onClick={addExercise} className="border rounded px-3 py-1">
-                        Add
-                    </button>
+                    <Button onClick={addExercise}>Add</Button>
                 </div>
             )}
         </div>
