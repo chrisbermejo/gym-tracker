@@ -43,9 +43,15 @@ function App() {
 
     if (!currentUser) {
         return (
-            <div>
-                <h1 className="text-4xl font-bold text-blue-600">GymSense</h1>
-                <a href="/api/auth/google/login">Sign in with Google</a>
+            <div className="flex flex-col items-center justify-center gap-4 min-h-screen text-center">
+                <h1 className="text-4xl font-bold text-primary">GymSense</h1>
+                <p className="text-ink-muted">Track your workouts, your way.</p>
+                <a
+                    href="/api/auth/google/login"
+                    className="inline-block rounded-lg bg-primary px-4 py-2 text-base font-medium text-white hover:bg-primary-hover transition-colors"
+                >
+                    Sign in with Google
+                </a>
             </div>
         )
     }
@@ -66,7 +72,7 @@ function App() {
     return (
         <div className='flex flex-col items-center'>
             <div className='mb-5 text-center'>
-                <h1 className="text-4xl font-bold text-primary ">GymSense</h1>
+                <h1 className="text-4xl font-bold text-primary m-4">GymSense</h1>
                 <p>Signed in as {currentUser.name} ({currentUser.email})</p>
                 <div className="flex flex-col items-center">
                     <p className="flex gap-2">

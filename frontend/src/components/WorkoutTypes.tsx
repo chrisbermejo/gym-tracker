@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import ExerciseList from './ExerciseList'
 
+import Button from './ui/Button'
+import Input from './ui/Input'
+
 interface WorkoutType {
     id: number
     name: string
@@ -62,48 +65,46 @@ function WorkoutTypes() {
 
             <div className="flex flex-wrap gap-2">
                 {types.map((t) => (
-                    <div key={t.id} className="flex items-center gap-1">
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setSelected(t)
-                                setNewName(t.name)
-                            }}
-                            className={`border rounded px-3 py-1 ${selected?.id === t.id ? 'bg-blue-600 text-white' : ''}`}
-                        >
-                            {t.name}
-                        </button>
-
-                    </div>
+                    <Button
+                        key={t.id}
+                        variant={selected?.id === t.id ? 'primary' : 'secondary'}
+                        onClick={() => {
+                            setSelected(t)
+                            setNewName(t.name)
+                        }}
+                    >
+                        {t.name}
+                    </Button>
                 ))}
             </div>
 
             <div className="flex gap-2">
-                <input
-                    className="border rounded px-2 py-1"
+                <Input
                     placeholder="Enter workout name..."
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                 />
-                <button type="button" onClick={createType} className="border rounded px-3 py-1">
-                    Add
-                </button>
-                {selected && (
-                    <div className="flex gap-2">
-                        <button type="button" onClick={() => deleteType(selected.id)} className="border rounded px-3 py-1">
-                            Delete
-                        </button>
-                        <button type="button" onClick={() => editType(selected.id, newName)} className="border rounded px-3 py-1">
-                            Edit
-                        </button>
-                    </div>
 
-                )}
+                <div className="flex gap-2">
+                    <Button onClick={createType}>Add</Button>
+                    {selected && (
+                        <>
+                            <Button onClick={() => editType(selected.id, newName)}>
+                                Edit
+                            </Button>
+                            <Button variant="danger" onClick={() => deleteType(selected.id)}>
+                                Delete
+                            </Button>
+                        </>
+                    )}
+                </div>
             </div>
 
             {selected && (
-                <div className='flex flex-col w-full max-w-sm'>
-                    <p>You picked <strong>{selected.name}</strong>.</p>
+                <div className="flex flex-col w-full max-w-sm text-center">
+                    <p>
+                        You picked <strong>{selected.name}</strong>.
+                    </p>
                     <ExerciseList workoutTypeId={selected.id} canEdit={!selected.is_predefined} />
                 </div>
             )}

@@ -5,10 +5,6 @@ html {
     line-height: 145%;
 }
 
-h1 {
-    margin: 1rem;
-}
-
 @theme {
     --color-primary: #7c3aed;
     --color-primary-hover: #6d28d9;

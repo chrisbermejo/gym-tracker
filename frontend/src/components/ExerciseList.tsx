@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
 
+import Button from './ui/Button'
+import Input from './ui/Input'
+
 interface Exercise {
     id: number
     name: string
@@ -79,10 +82,10 @@ function ExerciseList({ workoutTypeId, canEdit }: { workoutTypeId: number; canEd
 
             <div className="flex flex-col gap-1">
                 {attached.map((a) => (
-                    <div key={a.exercise_id} className="flex items-center justify-between border rounded px-3 py-2">
+                    <div key={a.exercise_id} className="flex items-center justify-between border border-line rounded px-3 py-2">
                         <span>{a.name}</span>
                         {canEdit && (
-                            <button type="button" onClick={() => removeExercise(a.exercise_id)} className="text-red-600 text-sm">
+                            <button type="button" onClick={() => removeExercise(a.exercise_id)} className="text-red-600 hover:underline text-sm">
                                 Remove
                             </button>
                         )}
@@ -92,16 +95,12 @@ function ExerciseList({ workoutTypeId, canEdit }: { workoutTypeId: number; canEd
 
             {canEdit && (
                 <>
-                    <button
-                        type="button"
-                        onClick={() => setShowAddPanel((prev) => !prev)}
-                        className="border rounded px-3 py-2 text-left font-medium"
-                    >
+                    <Button variant="secondary" className="text-left font-medium" onClick={() => setShowAddPanel((prev) => !prev)}>
                         + Add exercise
-                    </button>
+                    </Button>
 
                     {showAddPanel && (
-                        <div className="flex flex-col gap-2 border rounded p-3">
+                        <div className="flex flex-col gap-2 border border-line rounded p-3">
                             <div className="flex flex-col gap-1">
                                 {availableToAdd.map((e) => (
                                     <button
@@ -111,28 +110,27 @@ function ExerciseList({ workoutTypeId, canEdit }: { workoutTypeId: number; canEd
                                             attachExercise(e.id)
                                             setShowAddPanel(false)
                                         }}
-                                        className="text-left px-2 py-1 hover:bg-gray-100 rounded"
+                                        className="text-left px-2 py-1 hover:bg-line rounded"
                                     >
                                         {e.name}
-                                        {e.muscle_group && <span className="text-gray-500 text-sm"> ({e.muscle_group})</span>}
+                                        {e.muscle_group && <span className="text-ink-muted text-sm"> ({e.muscle_group})</span>}
                                     </button>
                                 ))}
                                 {availableToAdd.length === 0 && (
-                                    <p className="text-sm text-gray-500">No more exercises to add from the library.</p>
+                                    <p className="text-sm text-ink-muted">No more exercises to add from the library.</p>
                                 )}
                             </div>
 
-                            <hr />
+                            <hr className="border-line" />
 
                             <p className="text-sm font-medium">Create a new exercise</p>
-                            <input
-                                className="border rounded px-2 py-1"
+                            <Input
                                 placeholder="Exercise name..."
                                 value={newExerciseName}
                                 onChange={(e) => setNewExerciseName(e.target.value)}
                             />
                             <select
-                                className="border rounded px-2 py-1"
+                                className="border border-line rounded px-3 py-1.5 text-sm bg-surface"
                                 value={newExerciseMuscleGroup}
                                 onChange={(e) => setNewExerciseMuscleGroup(e.target.value)}
                             >
@@ -143,9 +141,7 @@ function ExerciseList({ workoutTypeId, canEdit }: { workoutTypeId: number; canEd
                                     </option>
                                 ))}
                             </select>
-                            <button type="button" onClick={createAndAttachExercise} className="border rounded px-3 py-1">
-                                Create & Add
-                            </button>
+                            <Button onClick={createAndAttachExercise}>Create & Add</Button>
                         </div>
                     )}
                 </>

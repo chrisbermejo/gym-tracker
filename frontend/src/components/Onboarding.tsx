@@ -1,6 +1,9 @@
 import { useState, type SyntheticEvent } from 'react'
 import { kgToLbs, lbsToKg, cmToFeetInches, feetInchesToCm } from '../utils/units'
 
+import Button from './ui/Button'
+import Input from './ui/Input'
+
 type WeightUnit = 'kg' | 'lbs'
 type HeightUnit = 'cm' | 'ft'
 
@@ -63,20 +66,29 @@ function Onboarding({ onDone }: { onDone: () => void }) {
     }
 
     return (
-        <div className='flex items-center justify-center'>
+        <div className="flex items-center justify-center">
             <div className="flex flex-col gap-3 max-w-xs w-full">
-                <h1 className="text-4xl font-bold text-blue-600">Welcome!</h1>
+                <h1 className="text-4xl font-bold text-primary">Welcome!</h1>
                 <form onSubmit={submit} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
                         <div className="flex justify-between items-center">
                             <span>Weight</span>
-                            <div className="flex gap-2">
-                                <button type="button" onClick={() => switchWeightUnit('kg')} className={weightUnit === 'kg' ? 'font-bold underline' : ''}>kg</button>
-                                <button type="button" onClick={() => switchWeightUnit('lbs')} className={weightUnit === 'lbs' ? 'font-bold underline' : ''}>lbs</button>
+                            <div className="flex gap-1">
+                                <Button
+                                    variant={weightUnit === 'kg' ? 'primary' : 'ghost'}
+                                    onClick={() => switchWeightUnit('kg')}
+                                >
+                                    kg
+                                </Button>
+                                <Button
+                                    variant={weightUnit === 'lbs' ? 'primary' : 'ghost'}
+                                    onClick={() => switchWeightUnit('lbs')}
+                                >
+                                    lbs
+                                </Button>
                             </div>
                         </div>
-                        <input
-                            className="border rounded px-2 py-1"
+                        <Input
                             value={weight}
                             onChange={(e) => setWeight(e.target.value)}
                             type="number"
@@ -88,14 +100,23 @@ function Onboarding({ onDone }: { onDone: () => void }) {
                     <div className="flex flex-col gap-1">
                         <div className="flex justify-between items-center">
                             <span>Height</span>
-                            <div className="flex gap-2">
-                                <button type="button" onClick={() => switchHeightUnit('cm')} className={heightUnit === 'cm' ? 'font-bold underline' : ''}>cm</button>
-                                <button type="button" onClick={() => switchHeightUnit('ft')} className={heightUnit === 'ft' ? 'font-bold underline' : ''}>ft/in</button>
+                            <div className="flex gap-1">
+                                <Button
+                                    variant={heightUnit === 'cm' ? 'primary' : 'ghost'}
+                                    onClick={() => switchHeightUnit('cm')}
+                                >
+                                    cm
+                                </Button>
+                                <Button
+                                    variant={heightUnit === 'ft' ? 'primary' : 'ghost'}
+                                    onClick={() => switchHeightUnit('ft')}
+                                >
+                                    ft/in
+                                </Button>
                             </div>
                         </div>
                         {heightUnit === 'cm' ? (
-                            <input
-                                className="border rounded px-2 py-1"
+                            <Input
                                 value={heightCm}
                                 onChange={(e) => setHeightCm(e.target.value)}
                                 type="number"
@@ -104,16 +125,16 @@ function Onboarding({ onDone }: { onDone: () => void }) {
                             />
                         ) : (
                             <div className="flex gap-2">
-                                <input
-                                    className="border rounded px-2 py-1 w-full"
+                                <Input
+                                    className="w-full"
                                     value={heightFt}
                                     onChange={(e) => setHeightFt(e.target.value)}
                                     type="number"
                                     placeholder="ft"
                                     required
                                 />
-                                <input
-                                    className="border rounded px-2 py-1 w-full"
+                                <Input
+                                    className="w-full"
                                     value={heightIn}
                                     onChange={(e) => setHeightIn(e.target.value)}
                                     type="number"
@@ -126,9 +147,9 @@ function Onboarding({ onDone }: { onDone: () => void }) {
                     </div>
 
                     {error && <p className="text-red-600">{error}</p>}
-                    <button className="bg-blue-600 text-white rounded px-3 py-1" type="submit">
+                    <Button type="submit" variant="primary">
                         Continue
-                    </button>
+                    </Button>
                 </form>
             </div>
         </div>

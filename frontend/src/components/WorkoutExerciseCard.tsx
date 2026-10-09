@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react'
 
+import Card from './ui/Card'
+import Input from './ui/Input'
+import Button from './ui/Button'
+
 interface SetEntry {
     id: number
     set_number: number
@@ -67,7 +71,7 @@ function WorkoutExerciseCard({
     }, [entry.exercise_id])
 
     return (
-        <div className="border rounded p-3 flex flex-col gap-2 w-full">
+        <Card className="border rounded p-3 flex flex-col gap-2 w-full">
             <h3 className="font-bold">{entry.name}</h3>
             {history && (
                 <p className="text-xs text-gray-500">
@@ -83,26 +87,26 @@ function WorkoutExerciseCard({
             </div>
             {!disabled && (
                 <div className="flex gap-2 justify-center">
-                    <input
-                        className="border rounded px-2 py-1 w-20"
+                    <Input
+                        className="w-25"
                         placeholder="Weight"
                         type="number"
                         value={weight}
                         onChange={(e) => setWeight(e.target.value)}
                     />
-                    <input
-                        className="border rounded px-2 py-1 w-20"
+                    <Input
+                        className="w-25"
                         placeholder="Reps"
                         type="number"
                         value={reps}
                         onChange={(e) => setReps(e.target.value)}
                     />
-                    <button type="button" onClick={addSet} className="border rounded px-3 py-1">
+                    <Button variant="primary" onClick={addSet}>
                         Log set
-                    </button>
+                    </Button>
                 </div>
             )}
-        </div>
+        </Card>
     )
 }
 

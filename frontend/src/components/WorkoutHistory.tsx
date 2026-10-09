@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import Button from './ui/Button'
+
 interface WorkoutSummary {
     id: number
     workout_date: string
@@ -66,23 +68,23 @@ function WorkoutHistory() {
 
                     return (
                         <div key={w.id} className="flex flex-col">
-                            <button
-                                type="button"
+                            <Button
+                                variant="secondary"
+                                className="flex items-center justify-between w-full text-left"
                                 onClick={() => toggleWorkout(w.id)}
-                                className="flex items-center justify-between border rounded px-3 py-2 text-left"
                             >
                                 <span>{w.workout_date} — {w.label}</span>
                                 {w.completed_at ? (
                                     <span className="text-green-600 text-sm">Completed</span>
                                 ) : (
-                                    <span className="text-gray-500 text-sm">In progress</span>
+                                    <span className="text-ink-muted text-sm">In progress</span>
                                 )}
-                            </button>
+                            </Button>
 
                             {expandedId === w.id && (
-                                <div className="flex flex-col gap-2 border rounded p-3 mt-1">
+                                <div className="flex flex-col gap-2 border border-line rounded p-3 mt-1">
                                     {exercisesWithSets.length === 0 && (
-                                        <p className="text-sm text-gray-500">No sets logged for this workout.</p>
+                                        <p className="text-sm text-ink-muted">No sets logged for this workout.</p>
                                     )}
                                     {exercisesWithSets.map((we) => (
                                         <div key={we.workout_exercise_id}>
@@ -99,7 +101,7 @@ function WorkoutHistory() {
                         </div>
                     )
                 })}
-                {workouts.length === 0 && <p className="text-sm text-gray-500">No workouts logged yet.</p>}
+                {workouts.length === 0 && <p className="text-sm text-ink-muted">No workouts logged yet.</p>}
             </div>
         </div>
     )
