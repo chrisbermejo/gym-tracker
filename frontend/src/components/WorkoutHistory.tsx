@@ -58,7 +58,7 @@ function WorkoutHistory() {
     }
 
     return (
-        <div className="flex flex-col gap-4 max-w-md w-full">
+        <div className="flex flex-col gap-4 w-full">
             <h2 className="text-2xl font-bold text-center">Workout History</h2>
 
             <div className="flex flex-col gap-1">

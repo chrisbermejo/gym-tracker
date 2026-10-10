@@ -19,11 +19,11 @@ html {
     :root {
         --color-primary: #a78bfa;
         --color-primary-hover: #c4b5fd;
-        --color-surface: #1e1e27;
-        --color-surface-muted: #16161d;
-        --color-line: #30303c;
-        --color-ink: #f1f5f9;
-        --color-ink-muted: #94a3b8;
+        --color-surface: #18181b;
+        --color-surface-muted: #09090b;
+        --color-line: #27272a;
+        --color-ink: #fafafa;
+        --color-ink-muted: #a1a1aa;
     }
 }
 

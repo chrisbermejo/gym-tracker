@@ -95,7 +95,7 @@ function TodaysWorkout() {
 
     if (!workout) {
         return (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 w-full">
                 <h2 className="text-2xl font-bold text-center">What are we doing today?</h2>
                 <div className="flex flex-wrap gap-2">
                     {types.map((t) => (
@@ -127,7 +127,7 @@ function TodaysWorkout() {
     const availableExercises = exercises.filter((e) => !workout.exercises.some((we) => we.exercise_id === e.id))
 
     return (
-        <div className="flex flex-col gap-4 items-center max-w-md w-full">
+        <div className="flex flex-col gap-4 items-center w-full">
             <div className="flex items-center gap-4">
                 <h2 className="text-2xl font-bold">{workout.label}</h2>
                 <div className='flex gap-2'>

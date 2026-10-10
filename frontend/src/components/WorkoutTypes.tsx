@@ -60,7 +60,7 @@ function WorkoutTypes() {
     }
 
     return (
-        <div className="flex flex-col gap-4 items-center justify-center">
+        <div className="flex flex-col gap-4 items-center justify-center w-full">
             <h2 className="text-2xl font-bold">What are we doing today?</h2>
 
             <div className="flex flex-wrap gap-2">
@@ -83,8 +83,9 @@ function WorkoutTypes() {
                 )}
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full">
                 <Input
+                    className="flex-1"
                     placeholder="Enter workout name..."
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
@@ -94,9 +95,7 @@ function WorkoutTypes() {
                     <Button onClick={createType}>Add</Button>
                     {selected && (
                         <>
-                            <Button onClick={() => editType(selected.id, newName)}>
-                                Edit
-                            </Button>
+                            <Button onClick={() => editType(selected.id, newName)}>Edit</Button>
                             <Button variant="danger" onClick={() => deleteType(selected.id)}>
                                 Delete
                             </Button>
