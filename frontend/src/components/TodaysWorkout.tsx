@@ -103,6 +103,11 @@ function TodaysWorkout() {
                             {t.name}
                         </Button>
                     ))}
+                    {types.length === 0 && (
+                        <p className="italic text-ink-muted text-sm w-full">
+                            No types yet — create one in Manage Types, or type below.
+                        </p>
+                    )}
                 </div>
                 <div className="flex gap-2 w-full">
                     <Input

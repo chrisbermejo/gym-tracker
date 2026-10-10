@@ -1,9 +1,11 @@
 from pydantic import BaseModel, Field
+from typing import Literal
 
 
 class OnboardingIn(BaseModel):
     weight: float = Field(gt=0)
     height: float = Field(gt=0)
+    unit_system: Literal["metric", "imperial"]
 
 class CreateWorkoutTypeIn(BaseModel):
     name: str = Field(min_length=1, max_length=50)
@@ -29,3 +31,6 @@ class AddSetIn(BaseModel):
 class CreateWorkoutIn(BaseModel):
     label: str = Field(min_length=1, max_length=50)
     workout_type_id: int | None = None
+
+class UpdateSettingsIn(BaseModel):
+    unit_system: Literal["metric", "imperial"]

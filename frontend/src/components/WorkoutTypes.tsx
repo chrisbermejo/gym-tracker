@@ -76,6 +76,11 @@ function WorkoutTypes() {
                         {t.name}
                     </Button>
                 ))}
+                {types.length === 0 && (
+                    <p className="italic text-ink-muted text-sm w-full">
+                        No types yet — try Push, Pull, Legs, Upper, or Lower.
+                    </p>
+                )}
             </div>
 
             <div className="flex gap-2">

@@ -17,6 +17,7 @@ class User(Base):
     height: Mapped[float | None] = mapped_column(Numeric, nullable=True)
     onboarding_completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    unit_system: Mapped[str] = mapped_column(String, default="metric")
 
 
 class WorkoutType(Base):

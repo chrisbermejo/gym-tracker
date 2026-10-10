@@ -57,6 +57,7 @@ def me(user: User = Depends(get_current_user)):
         "weight": float(user.weight) if user.weight is not None else None,
         "height": float(user.height) if user.height is not None else None,
         "onboarding_completed": user.onboarding_completed_at is not None,
+        "unit_system": user.unit_system,
     }
 
 

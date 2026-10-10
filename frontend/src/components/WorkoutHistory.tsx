@@ -59,7 +59,7 @@ function WorkoutHistory() {
 
     return (
         <div className="flex flex-col gap-4 max-w-md w-full">
-            <h2 className="text-2xl font-bold">Workout History</h2>
+            <h2 className="text-2xl font-bold text-center">Workout History</h2>
 
             <div className="flex flex-col gap-1">
                 {workouts.map((w) => {
@@ -101,7 +101,7 @@ function WorkoutHistory() {
                         </div>
                     )
                 })}
-                {workouts.length === 0 && <p className="text-sm text-ink-muted">No workouts logged yet.</p>}
+                {workouts.length === 0 && <p className="italic text-ink-muted text-sm text-center">No workouts logged yet.</p>}
             </div>
         </div>
     )

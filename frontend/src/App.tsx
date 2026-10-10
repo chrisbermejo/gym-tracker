@@ -21,7 +21,7 @@ function App() {
     const [loading, setLoading] = useState(true)
     const [weightUnit, setWeightUnit] = useState<'kg' | 'lbs'>('kg')
     const [heightUnit, setHeightUnit] = useState<'cm' | 'ft'>('cm')
-    const [view, setView] = useState<'today' | 'types' | 'history'>('today')
+    const [view, setView] = useState<'today' | 'types' | 'history'>('types')
 
     const loadCurrentUser = () => {
         fetch('/api/auth/me')
