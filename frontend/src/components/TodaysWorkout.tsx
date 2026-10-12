@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import WorkoutExerciseCard from './WorkoutExerciseCard'
+import AddExercisePicker from './ExerciseForm/AddExercisePicker'
 
 import Button from './ui/Button'
 import Input from './ui/Input'
@@ -26,13 +27,6 @@ interface WorkoutDetail {
     exercises: WorkoutExerciseEntry[]
 }
 
-interface Exercise {
-    id: number
-    name: string
-    muscle_group: string | null
-    is_predefined: boolean
-}
-
 interface WorkoutType {
     id: number
     name: string
@@ -43,13 +37,10 @@ function TodaysWorkout() {
     const [workout, setWorkout] = useState<WorkoutDetail | null | undefined>(undefined)
     const [types, setTypes] = useState<WorkoutType[]>([])
     const [customLabel, setCustomLabel] = useState('')
-    const [exercises, setExercises] = useState<Exercise[]>([])
-    const [selectedExerciseId, setSelectedExerciseId] = useState('')
 
     useEffect(() => {
         fetch('/api/workouts/today').then((res) => res.json()).then(setWorkout)
         fetch('/api/workout-types').then((res) => res.json()).then(setTypes)
-        fetch('/api/exercises').then((res) => res.json()).then(setExercises)
     }, [])
 
     const startWorkout = async (label: string, workoutTypeId?: number) => {
@@ -68,15 +59,14 @@ function TodaysWorkout() {
         setWorkout(null)
     }
 
-    const addExercise = async () => {
-        if (!workout || !selectedExerciseId) return
+    const attachExerciseToWorkout = async (exerciseId: number) => {
+        if (!workout) return
         const res = await fetch(`/api/workouts/${workout.id}/exercises`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ exercise_id: Number(selectedExerciseId) }),
+            body: JSON.stringify({ exercise_id: exerciseId }),
         })
         setWorkout(await res.json())
-        setSelectedExerciseId('')
     }
 
     const finishWorkout = async () => {
@@ -124,8 +114,6 @@ function TodaysWorkout() {
         )
     }
 
-    const availableExercises = exercises.filter((e) => !workout.exercises.some((we) => we.exercise_id === e.id))
-
     return (
         <div className="flex flex-col gap-4 items-center w-full">
             <div className="flex items-center gap-4">
@@ -162,21 +150,10 @@ function TodaysWorkout() {
             ))}
 
             {!workout.completed_at && (
-                <div className="flex gap-2">
-                    <select
-                        className="border rounded px-2 py-1"
-                        value={selectedExerciseId}
-                        onChange={(e) => setSelectedExerciseId(e.target.value)}
-                    >
-                        <option value="">Add an exercise...</option>
-                        {availableExercises.map((e) => (
-                            <option key={e.id} value={e.id}>
-                                {e.name}
-                            </option>
-                        ))}
-                    </select>
-                    <Button onClick={addExercise}>Add</Button>
-                </div>
+                <AddExercisePicker
+                    excludeIds={workout.exercises.map((we) => we.exercise_id)}
+                    onAttach={attachExerciseToWorkout}
+                />
             )}
         </div>
     )
