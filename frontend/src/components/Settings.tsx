@@ -6,9 +6,19 @@ import Button from './ui/Button'
 function Settings({
     unitSystem,
     onUnitSystemChanged,
+    weightDisplay,
+    heightDisplay,
+    userName,
+    userEmail,
+    onLogout,
 }: {
     unitSystem: 'metric' | 'imperial'
     onUnitSystemChanged: () => void
+    weightDisplay: string
+    heightDisplay: string
+    userName: string
+    userEmail: string
+    onLogout: () => void
 }) {
     const [accentColor, setAccentColor] = useState<AccentColorName>(getStoredAccentColor())
 
@@ -29,8 +39,17 @@ function Settings({
     }
 
     return (
-        <div className="flex flex-col gap-6 w-full text-center items-center justify-center">
+        <div className="flex flex-col gap-6 w-full">
             <h2 className="text-2xl font-bold">Settings</h2>
+
+            <div className="flex flex-col gap-1">
+                <span className="font-medium">Account</span>
+                <p className="text-sm text-ink-muted">
+                    {userName} ({userEmail})
+                </p>
+                <p className="text-sm">Weight: {weightDisplay}</p>
+                <p className="text-sm">Height: {heightDisplay}</p>
+            </div>
 
             <div className="flex flex-col gap-2">
                 <span className="font-medium">Units</span>
@@ -59,6 +78,10 @@ function Settings({
                     ))}
                 </div>
             </div>
+
+            <Button variant="danger" onClick={onLogout}>
+                Log out
+            </Button>
         </div>
     )
 }
