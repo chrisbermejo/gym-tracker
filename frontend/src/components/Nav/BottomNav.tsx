@@ -1,9 +1,8 @@
-type View = 'today' | 'types' | 'history' | 'settings'
+type View = 'dashboard' | 'types' | 'settings'
 
 const TABS: { key: View; label: string; icon: string }[] = [
-    { key: 'today', label: 'Today', icon: '🏋️' },
+    { key: 'dashboard', label: 'Dashboard', icon: '🏋️' },
     { key: 'types', label: 'Types', icon: '📋' },
-    { key: 'history', label: 'History', icon: '📊' },
     { key: 'settings', label: 'Settings', icon: '⚙️' },
 ]
 

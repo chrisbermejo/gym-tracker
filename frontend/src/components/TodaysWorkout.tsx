@@ -33,7 +33,7 @@ interface WorkoutType {
     is_predefined: boolean
 }
 
-function TodaysWorkout() {
+function TodaysWorkout({ onWorkoutChange }: { onWorkoutChange?: () => void }) {
     const [workout, setWorkout] = useState<WorkoutDetail | null | undefined>(undefined)
     const [types, setTypes] = useState<WorkoutType[]>([])
     const [customLabel, setCustomLabel] = useState('')
@@ -51,15 +51,17 @@ function TodaysWorkout() {
             body: JSON.stringify({ label: label.trim(), workout_type_id: workoutTypeId ?? null }),
         })
         setWorkout(await res.json())
+        onWorkoutChange?.()
     }
 
     const deleteWorkout = async () => {
         if (!workout) return
         await fetch(`/api/workouts/${workout.id}`, { method: 'DELETE' })
         setWorkout(null)
+        onWorkoutChange?.()
     }
 
-    const attachExerciseToWorkout = async (exerciseId: number) => {
+    const addExerciseById = async (exerciseId: number) => {
         if (!workout) return
         const res = await fetch(`/api/workouts/${workout.id}/exercises`, {
             method: 'POST',
@@ -73,19 +75,21 @@ function TodaysWorkout() {
         if (!workout) return
         const res = await fetch(`/api/workouts/${workout.id}/complete`, { method: 'PATCH' })
         setWorkout(await res.json())
+        onWorkoutChange?.()
     }
 
     const undoComplete = async () => {
         if (!workout) return
         const res = await fetch(`/api/workouts/${workout.id}/uncomplete`, { method: 'PATCH' })
         setWorkout(await res.json())
+        onWorkoutChange?.()
     }
 
     if (workout === undefined) return <p>Loading...</p>
 
     if (!workout) {
         return (
-            <div className="flex flex-col gap-4 items-center justify-center w-full">
+            <div className="flex flex-col gap-4 w-full">
                 <h2 className="text-2xl font-bold text-center">What are we doing today?</h2>
                 <div className="flex flex-wrap gap-2">
                     {types.map((t) => (
@@ -152,7 +156,7 @@ function TodaysWorkout() {
             {!workout.completed_at && (
                 <AddExercisePicker
                     excludeIds={workout.exercises.map((we) => we.exercise_id)}
-                    onAttach={attachExerciseToWorkout}
+                    onAttach={addExerciseById}
                 />
             )}
         </div>

@@ -3,8 +3,7 @@ import { kgToLbs, cmToFeetInches } from './utils/units'
 import { applyAccentColor, getStoredAccentColor } from './utils/themes'
 import Onboarding from './components/Onboarding'
 import WorkoutTypes from './components/WorkoutTypes'
-import TodaysWorkout from './components/TodaysWorkout'
-import WorkoutHistory from './components/WorkoutHistory'
+import Dashboard from './components/DashBoard'
 import Settings from './components/Settings'
 import BottomNav from './components/Nav/BottomNav'
 import Logo from './components/ui/Logo'
@@ -22,7 +21,7 @@ interface User {
 function App() {
     const [currentUser, setCurrentUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
-    const [view, setView] = useState<'today' | 'types' | 'history' | 'settings'>('today')
+    const [view, setView] = useState<'dashboard' | 'types' | 'settings'>('dashboard')
 
     const loadCurrentUser = () => {
         fetch('/api/auth/me')
@@ -94,9 +93,8 @@ function App() {
             </header>
 
             <main className="w-full max-w-sm mx-auto flex flex-col items-center gap-4 px-4 pb-20">
-                {view === 'today' && <TodaysWorkout />}
+                {view === 'dashboard' && <Dashboard />}
                 {view === 'types' && <WorkoutTypes />}
-                {view === 'history' && <WorkoutHistory />}
                 {view === 'settings' && (
                     <Settings
                         unitSystem={currentUser.unit_system}

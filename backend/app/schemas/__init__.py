@@ -34,3 +34,6 @@ class CreateWorkoutIn(BaseModel):
 
 class UpdateSettingsIn(BaseModel):
     unit_system: Literal["metric", "imperial"]
+
+class SetRoutineIn(BaseModel):
+    workout_type_ids: list[int] = Field(min_length=1)

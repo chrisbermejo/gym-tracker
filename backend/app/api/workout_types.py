@@ -18,7 +18,9 @@ def _serialize(workout_type: WorkoutType) -> dict:
 
 @router.get("")
 def list_workout_types(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    types = db.query(WorkoutType).filter((WorkoutType.user_id == user.id)).all()
+    types = db.query(WorkoutType).filter(
+        (WorkoutType.user_id.is_(None)) | (WorkoutType.user_id == user.id)
+    ).all()
     return [_serialize(t) for t in types]
 
 

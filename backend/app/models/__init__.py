@@ -18,6 +18,7 @@ class User(Base):
     onboarding_completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     unit_system: Mapped[str] = mapped_column(String, default="metric")
+    routine_position: Mapped[int] = mapped_column(default=0)
 
 
 class WorkoutType(Base):
@@ -27,6 +28,14 @@ class WorkoutType(Base):
     user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)
     name: Mapped[str] = mapped_column(String)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+class RoutineSlot(Base):
+    __tablename__ = "routine_slots"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
+    workout_type_id: Mapped[int] = mapped_column(ForeignKey("workout_types.id", ondelete="CASCADE"))
+    order_index: Mapped[int]
 
 class Exercise(Base):
     __tablename__ = "exercises"
