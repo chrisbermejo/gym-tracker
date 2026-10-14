@@ -115,7 +115,7 @@ function RoutineWeekStrip({ workouts, onConfirmed }: { workouts: WorkoutSummary[
                             {isToday ? (
                                 todayWorkout ? (
                                     <span className="text-[10px] text-primary font-medium leading-tight">
-                                        Progress
+                                        {todayWorkout.completed_at ? 'Done' : 'Progress'}
                                         <br />
                                         {todayWorkout.label}
                                     </span>

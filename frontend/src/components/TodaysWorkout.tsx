@@ -120,27 +120,39 @@ function TodaysWorkout({ onWorkoutChange }: { onWorkoutChange?: () => void }) {
 
     return (
         <div className="flex flex-col gap-4 items-center w-full">
-            <div className="flex items-center gap-4">
-                <h2 className="text-2xl font-bold">{workout.label}</h2>
-                <div className='flex gap-2'>
-                    {!workout.completed_at && (
+            <div className="flex flex-col gap-3 w-full">
+                <div className="flex items-center justify-between w-full">
+                    <h2 className="text-2xl font-bold">{workout.label}</h2>
+                    {workout.completed_at ? (
+                        <div className="flex items-center gap-2">
+                            <button
+                                type="button"
+                                onClick={undoComplete}
+                                className="text-xs font-medium text-ink-muted bg-line px-2.5 py-1 rounded-full hover:opacity-80 transition-opacity"
+                            >
+                                Undo
+                            </button>
+                            <span className="text-xs font-medium text-green-600 bg-green-600/10 px-2.5 py-1 rounded-full">
+                                Completed
+                            </span>
+                        </div>
+                    ) : (
+                        <span className="text-xs font-medium text-ink-muted bg-line px-2.5 py-1 rounded-full">
+                            In progress
+                        </span>
+                    )}
+                </div>
+
+                {!workout.completed_at && (
+                    <div className="flex gap-2 w-full">
+                        <Button variant="primary" className="flex-1" onClick={finishWorkout}>
+                            Finish workout
+                        </Button>
                         <Button variant="danger" onClick={deleteWorkout}>
                             Start over
                         </Button>
-                    )}
-                    {workout.completed_at ? (
-                        <div className="flex items-center gap-2">
-                            <span className="text-green-600 text-sm">Completed</span>
-                            <Button variant="ghost" onClick={undoComplete}>
-                                Undo
-                            </Button>
-                        </div>
-                    ) : (
-                        <Button variant="primary" onClick={finishWorkout}>
-                            Finish workout
-                        </Button>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
 
             {workout.exercises.map((we) => (
